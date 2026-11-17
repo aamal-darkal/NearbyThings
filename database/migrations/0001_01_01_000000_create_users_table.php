@@ -13,10 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('full_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone', 30)->nullable();
+            $table->string('address')->nullable();
+            $table->string('city', 100)->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
+            $table->boolean('is_blocked')->default(false);
+            $table->boolean('is_admin')->default(false);
+            $table->float('rate')->default(0)->comment('cached average of reviews');
             $table->rememberToken();
             $table->timestamps();
         });
