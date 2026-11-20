@@ -34,6 +34,19 @@ class LoginRequest extends FormRequest
     }
 
     /**
+     * رسائل الخطأ بالعربي
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'email.*' => 'أدخل بريداً إلكترونياً صحيحاً',
+            'password.*' => 'أدخل كلمة المرور',
+        ];
+    }
+
+    /**
      * Attempt to authenticate the request's credentials.
      *
      * @throws ValidationException
@@ -46,7 +59,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
             ]);
         }
 
@@ -69,10 +82,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => 'محاولات كثيرة، حاول مجدداً بعد '.$seconds.' ثانية',
         ]);
     }
 

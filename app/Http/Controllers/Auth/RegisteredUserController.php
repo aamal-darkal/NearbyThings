@@ -31,21 +31,34 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'full_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'regex:/^09[0-9]{8}$/'],
+            'address' => ['required', 'string', 'max:255'],
+        ], [
+            'full_name.*' => 'أدخل اسم المستخدم',
+            'email.unique' => 'هذا البريد الإلكتروني مستخدم مسبقاً',
+            'email.lowercase' => 'اكتب البريد الإلكتروني بأحرف صغيرة',
+            'email.*' => 'أدخل بريداً إلكترونياً صحيحاً',
+            'phone.*' => 'رقم الهاتف يجب أن يبدأ بـ 09 ويتكون من 10 أرقام',
+            'password.confirmed' => 'كلمتا المرور غير متطابقتين',
+            'password.*' => 'كلمة المرور 8 أحرف على الأقل',
+            'address.*' => 'أدخل منطقتك',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'full_name' => $request->full_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'address' => $request->address,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('profile.show', absolute: false));
     }
 }

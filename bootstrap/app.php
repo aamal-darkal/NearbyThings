@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // المستخدم المسجّل دخوله اذا فتح صفحات الدخول أو التسجيل منوديه عالملف الشخصي
+        $middleware->redirectUsersTo(fn () => route('profile.show'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
