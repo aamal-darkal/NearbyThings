@@ -1,39 +1,74 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+{{-- صفحة اختيار كلمة مرور جديدة (بتفتح من رابط الإيميل) --}}
+@extends('layouts.site')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+@section('title', 'كلمة مرور جديدة')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/forms.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+@endpush
+
+@section('header')
+    @include('partials.header-guest')
+@endsection
+
+@section('content')
+  <main class="auth-page">
+    <div class="container">
+
+      <section class="auth-card">
+        <div class="auth-intro">
+          <div class="auth-intro__logo"><img src="{{ asset('assets/images/logo.png') }}" alt=""></div>
+          <h1>كلمة مرور جديدة</h1>
+          <p>اختر كلمة مرور جديدة لحسابك</p>
         </div>
+        <form id="reset-form" method="POST" action="{{ route('password.store') }}" novalidate>
+          @csrf
+          <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+          <div class="form-group @error('email') has-error @enderror">
+            <label class="form-label" for="reset-email">البريد الإلكتروني</label>
+            <div class="input-wrap">
+              <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"></path></svg>
+              <input type="email" id="reset-email" name="email" value="{{ old('email', $request->email) }}" placeholder="مثال: rawda@gmail.com" autocomplete="email">
+            </div>
+            <p class="form-error">@error('email'){{ $message }}@enderror</p>
+          </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+          <div class="form-group @error('password') has-error @enderror">
+            <label class="form-label" for="reset-password">كلمة المرور الجديدة</label>
+            <div class="input-wrap">
+              <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <input type="password" id="reset-password" name="password" placeholder="8 أحرف على الأقل" autocomplete="new-password">
+              <button type="button" class="toggle-password" aria-label="إظهار كلمة المرور"><svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+            </div>
+            <p class="form-error">@error('password'){{ $message }}@enderror</p>
+          </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
+          <div class="form-group @error('password_confirmation') has-error @enderror">
+            <label class="form-label" for="reset-confirm">تأكيد كلمة المرور</label>
+            <div class="input-wrap">
+              <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              <input type="password" id="reset-confirm" name="password_confirmation" placeholder="••••••••" autocomplete="new-password">
+              <button type="button" class="toggle-password" aria-label="إظهار كلمة المرور"><svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+            </div>
+            <p class="form-error">@error('password_confirmation'){{ $message }}@enderror</p>
+          </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+          <button type="submit" class="btn btn--primary btn--lg btn--block">
+            حفظ كلمة المرور <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+          </button>
+        </form>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        <p class="auth-switch">تذكرت كلمة المرور؟<a href="{{ route('login') }}">عودة إلى تسجيل الدخول</a></p>
+      </section>
+
+      <p class="auth-trust"><svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>بيئة موثوقة للتواصل والتبادل بين أفراد الحي الواحد</p>
+    </div>
+  </main>
+@endsection
+
+@push('scripts')
+  <script src="{{ asset('assets/js/validation.js') }}"></script>
+  <script src="{{ asset('assets/js/reset-password.js') }}"></script>
+@endpush

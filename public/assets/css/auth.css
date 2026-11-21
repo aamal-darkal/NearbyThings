@@ -1,0 +1,146 @@
+/* ==========
+   صفحات تسجيل الدخول وإنشاء الحساب
+   ========== */
+
+.auth-page {
+  position: relative;
+  padding-block: 14px 72px;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.auth-page::before,
+.auth-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.auth-page::before {
+  top: -160px;
+  left: 50%;
+  width: 640px;
+  height: 480px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, #eef3ea 0%, rgba(238, 243, 234, 0) 100%);
+}
+
+.auth-page::after {
+  bottom: -140px;
+  left: -160px;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(closest-side, #f4efe2 0%, rgba(244, 239, 226, 0) 100%);
+}
+
+.auth-intro {
+  text-align: center;
+}
+
+.auth-intro__logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+}
+
+.auth-intro__logo img {
+  width: 80%;
+}
+
+.auth-intro h1 {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.auth-intro p {
+  color: var(--color-text-soft);
+}
+
+/* صفحات بدون تبويبات: مسافة بين العنوان والنموذج */
+.auth-intro + form {
+  margin-top: 28px;
+}
+
+/* رسالة النجاح فوق الحقول */
+.auth-card .privacy-box {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.auth-card {
+  max-width: 448px;
+  margin: 10px auto 0;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 30px;
+  box-shadow: var(--shadow-md);
+}
+
+/* التبويبات: تسجيل الدخول / إنشاء حساب */
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 32px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.auth-tabs a {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text-soft);
+  transition: background var(--transition), color var(--transition);
+}
+
+.auth-tabs a.is-active {
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.auth-switch {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.auth-switch a {
+  margin-inline-start: 6px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.auth-trust {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.auth-trust .icon {
+  color: var(--color-primary);
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 520px) {
+  .auth-card {
+    padding: 24px 20px;
+  }
+}

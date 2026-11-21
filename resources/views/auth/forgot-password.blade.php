@@ -1,25 +1,61 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+{{-- صفحة نسيت كلمة المرور --}}
+@extends('layouts.site')
+
+@section('title', 'نسيت كلمة المرور')
+
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/forms.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css/auth.css') }}">
+@endpush
+
+@section('header')
+    @include('partials.header-guest')
+@endsection
+
+@section('content')
+  <main class="auth-page">
+    <div class="container">
+
+      <section class="auth-card">
+        <div class="auth-intro">
+          <div class="auth-intro__logo"><img src="{{ asset('assets/images/logo.png') }}" alt=""></div>
+          <h1>نسيت كلمة المرور؟</h1>
+          <p>أدخل بريدك الإلكتروني وسنرسل لك رابطاً لاختيار كلمة مرور جديدة</p>
+        </div>
+        <form id="forgot-form" method="POST" action="{{ route('password.email') }}" novalidate>
+          @csrf
+
+          {{-- رسالة النجاح --}}
+          @if (session('status'))
+          <div class="privacy-box" role="status">
+            <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            <div>{{ session('status') }}</div>
+          </div>
+          @endif
+
+          <div class="form-group @error('email') has-error @enderror">
+            <label class="form-label" for="forgot-email">البريد الإلكتروني</label>
+            <div class="input-wrap">
+              <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"></path></svg>
+              <input type="email" id="forgot-email" name="email" value="{{ old('email') }}" placeholder="مثال: rawda@gmail.com" autocomplete="email">
+            </div>
+            <p class="form-error">@error('email'){{ $message }}@enderror</p>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--lg btn--block">
+            إرسال الرابط <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+          </button>
+        </form>
+
+        <p class="auth-switch">تذكرت كلمة المرور؟<a href="{{ route('login') }}">عودة إلى تسجيل الدخول</a></p>
+      </section>
+
+      <p class="auth-trust"><svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>بيئة موثوقة للتواصل والتبادل بين أفراد الحي الواحد</p>
     </div>
+  </main>
+@endsection
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Email Password Reset Link') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+@push('scripts')
+  <script src="{{ asset('assets/js/validation.js') }}"></script>
+  <script src="{{ asset('assets/js/forgot-password.js') }}"></script>
+@endpush

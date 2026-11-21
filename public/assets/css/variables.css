@@ -1,0 +1,48 @@
+/* ==========
+   متغيرات التصميم: الألوان والخط والزوايا والظلال
+   ========== */
+
+:root {
+  /* الألوان الأساسية */
+  --color-primary: #1b7a6e;
+  --color-primary-dark: #0f5f55;
+  --color-primary-soft: #e4f2ef;
+  --color-primary-softer: #f0f8f5;
+  --color-accent: #f2a541;
+  --gradient-primary: linear-gradient(135deg, #1b7a6e 0%, #2a9d8a 100%);
+
+  /* ألوان أنواع العمليات */
+  --color-rent-bg: #f3ece0;
+  --color-rent-text: #3d3428;
+  --color-exchange-bg: #2f6fb5;
+
+  /* الخلفيات والنصوص */
+  --color-bg: #fffbf3;
+  --color-surface: #ffffff;
+  --color-muted-bg: #f6f3f2;
+  --color-border: #ece7e1;
+  --color-text: #1f2523;
+  --color-text-soft: #4b5350;
+  --color-text-muted: #8a908d;
+  --color-danger: #d64545;
+  --color-star: #f5a623;
+
+  /* الخط */
+  --font-main: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+
+  /* الزوايا */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* الظلال */
+  --shadow-sm: 0 1px 3px rgba(31, 37, 35, 0.06);
+  --shadow-md: 0 6px 20px rgba(31, 37, 35, 0.08);
+  --shadow-lg: 0 18px 40px rgba(27, 122, 110, 0.16);
+
+  /* الأبعاد */
+  --container: 1216px;
+  --header-height: 80px;
+  --transition: 0.2s ease;
+}

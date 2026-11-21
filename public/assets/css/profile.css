@@ -1,0 +1,247 @@
+/* ==========
+   صفحة الملف الشخصي
+   ========== */
+
+.page { padding-top: 28px; }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.breadcrumb .current {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.breadcrumb .icon { font-size: 12px; }
+
+/* بطاقة المستخدم */
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.profile-card .avatar {
+  width: 96px;
+  height: 96px;
+  font-size: 44px;
+  flex-shrink: 0;
+}
+
+.profile-card h1 {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.profile-card__area {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.profile-card__area .icon { color: var(--color-primary); }
+
+.profile-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding-inline: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-muted-bg);
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.stat strong { color: var(--color-text); }
+
+.stat .icon--star { color: var(--color-star); }
+
+.stat .icon--star { fill: currentColor; }
+
+.stat .icon--green { color: var(--color-primary); }
+
+.profile-card .btn {
+  margin-inline-start: auto;
+  background: var(--color-primary-dark);
+}
+
+/* روابط أقسام الحساب */
+.account-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding-inline: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+  transition: background var(--transition), color var(--transition);
+}
+
+.pill:hover { background: var(--color-primary-softer); }
+
+.pill.is-active {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.pill .icon--heart { color: var(--color-danger); }
+
+.pill .icon--heart { fill: currentColor; }
+
+/* التبويبات */
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  margin-top: 28px;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding-inline: 24px;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-soft);
+  transition: background var(--transition), color var(--transition);
+}
+
+.tab.is-active {
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.tab__count {
+  min-width: 22px;
+  height: 20px;
+  padding-inline: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  font-size: 11px;
+}
+
+.tab-panel { margin-top: 16px; }
+
+.tab-panel[hidden] { display: none; }
+
+/* بطاقة التقييم */
+.reviews {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.review {
+  padding: 20px 24px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.review__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.review__head .avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.review__name { font-weight: 800; }
+
+.review__deal {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.review__stars {
+  margin-inline-start: auto;
+  display: flex;
+  gap: 2px;
+  color: var(--color-star);
+  font-size: 14px;
+}
+
+.review__stars svg { fill: currentColor; }
+
+.review__stars .is-empty { color: #ddd6cd; }
+
+.review p {
+  margin-top: 12px;
+  color: var(--color-text-soft);
+}
+
+.review time {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 800px) {
+  .profile-card {
+    flex-wrap: wrap;
+  }
+
+  .profile-card .avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 32px;
+  }
+
+  .profile-card .btn {
+    margin-inline-start: 0;
+    width: 100%;
+  }
+
+  .reviews {
+    grid-template-columns: 1fr;
+  }
+}
