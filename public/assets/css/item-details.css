@@ -1,0 +1,529 @@
+/* ==========
+   صفحة تفاصيل الغرض
+   ========== */
+
+.page {
+  padding-top: 32px;
+}
+
+/* مسار التنقل */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 28px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+.breadcrumb a:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb .current {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.breadcrumb .icon {
+  font-size: 12px;
+}
+
+/* التخطيط العام */
+.item-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.panel {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* المعرض */
+.gallery {
+  padding-bottom: 20px;
+  background: var(--color-muted-bg);
+  overflow: hidden;
+}
+
+.gallery__main {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: #e9e5e1;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  overflow: hidden;
+}
+
+.gallery__main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.25s ease;
+}
+
+.gallery__main .badge {
+  position: absolute;
+  top: 16px;
+  inset-inline-start: 16px;
+  height: 26px;
+  font-size: 13px;
+}
+
+.gallery__counter {
+  position: absolute;
+  bottom: 16px;
+  inset-inline-end: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(20, 26, 24, 0.65);
+  color: #fff;
+  font-size: 12px;
+}
+
+.gallery__expand {
+  position: absolute;
+  bottom: 16px;
+  inset-inline-start: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 16px;
+}
+
+.gallery__thumbs {
+  display: flex;
+  gap: 16px;
+  padding: 20px 20px 0;
+}
+
+.thumb {
+  width: 84px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  opacity: 0.75;
+  transition: opacity var(--transition), border-color var(--transition);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thumb:hover {
+  opacity: 1;
+}
+
+.thumb.is-active {
+  border-color: var(--color-primary);
+  opacity: 1;
+}
+
+/* الوصف والمواصفات */
+.description {
+  margin-top: 24px;
+  padding: 28px 24px;
+}
+
+.description h2 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.description p {
+  color: var(--color-text-soft);
+  line-height: 1.9;
+}
+
+.specs {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.spec {
+  padding: 18px 20px;
+}
+
+.spec__label {
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.spec__value {
+  margin-top: 2px;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+}
+
+.spec__note {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.safe-meetup {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-soft);
+}
+
+.safe-meetup__icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #cfe6e0;
+  color: var(--color-primary-dark);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.safe-meetup h3 {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.safe-meetup p {
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+/* بطاقة المعلومات الجانبية */
+.info-card {
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+  padding: 40px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding-inline: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-muted-bg);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-soft);
+}
+
+.tag--accent {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.posted {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.info-card h1 {
+  margin-top: 16px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.price-box {
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.price-box strong {
+  font-size: 40px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+}
+
+.price-box span {
+  margin-inline-start: 6px;
+  font-size: 15px;
+  color: var(--color-text-soft);
+}
+
+.location-box {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.location-box__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.location-box__head .tag {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.location-box__head .icon {
+  color: var(--color-primary);
+}
+
+.location-box__head > span:first-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.map-preview {
+  position: relative;
+  margin-top: 12px;
+  height: 128px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.map-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.location-note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.owner {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.owner .avatar {
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
+}
+
+.owner__name {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.owner__meta {
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.owner__rating {
+  margin-inline-start: auto;
+  text-align: end;
+}
+
+.owner__rating strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 17px;
+}
+
+.owner__rating .icon {
+  color: var(--color-star);
+}
+
+.owner__rating .icon {
+  fill: currentColor;
+}
+
+.actions {
+  margin-top: 28px;
+  display: flex;
+  gap: 16px;
+}
+
+.actions .btn--primary {
+  flex: 1;
+  height: 52px;
+  font-size: 17px;
+}
+
+.actions .btn--soft {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 19px;
+}
+
+.actions .btn--soft.is-active {
+  color: var(--color-danger);
+}
+
+.actions .btn--soft.is-active .icon {
+  fill: currentColor;
+}
+
+.report-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+.report-link:hover {
+  color: var(--color-danger);
+}
+
+/* ملخص الغرض داخل نافذة الطلب */
+.request-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.request-summary img {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.request-summary h3 {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.request-summary p {
+  font-size: 12px;
+  color: var(--color-text-soft);
+}
+
+.request-summary .price {
+  color: var(--color-primary-dark);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* عارض الصور بملء الشاشة */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background: rgba(10, 14, 13, 0.9);
+}
+
+.lightbox.is-open {
+  display: flex;
+}
+
+.lightbox img {
+  max-height: 90vh;
+  border-radius: var(--radius-md);
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 20px;
+  inset-inline-end: 20px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 22px;
+}
+
+/* بطاقات الأغراض القريبة (نسخة مبسطة) */
+.related .item-card__title {
+  margin-top: 0;
+}
+
+.related .item-card__distance {
+  margin-top: 2px;
+}
+
+.related .item-card__footer {
+  padding-top: 10px;
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 1000px) {
+  .item-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .info-card {
+    position: static;
+    padding: 28px 24px;
+  }
+
+  .specs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .gallery__thumbs {
+    gap: 8px;
+    padding-inline: 12px;
+  }
+
+  .thumb {
+    width: 64px;
+    height: 50px;
+  }
+
+  .info-card h1 {
+    font-size: 22px;
+  }
+
+  .price-box strong {
+    font-size: 32px;
+  }
+}
