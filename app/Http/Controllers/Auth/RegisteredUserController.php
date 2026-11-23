@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'phone' => ['required', 'regex:/^09[0-9]{8}$/'],
             'address' => ['required', 'string', 'max:255'],
         ], [
-            'full_name.*' => 'أدخل اسم المستخدم',
+            'full_name.*' => 'أدخل اسمك الكامل',
             'email.unique' => 'هذا البريد الإلكتروني مستخدم مسبقاً',
             'email.lowercase' => 'اكتب البريد الإلكتروني بأحرف صغيرة',
             'email.*' => 'أدخل بريداً إلكترونياً صحيحاً',
