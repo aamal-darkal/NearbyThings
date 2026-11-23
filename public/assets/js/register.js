@@ -14,7 +14,7 @@ registerForm.addEventListener('submit', function (event) {
   let isValid = true;
 
   if (nameInput.value.trim() === '') {
-    showError(nameInput, 'أدخل اسم المستخدم');
+    showError(nameInput, 'أدخل اسمك الكامل');
     isValid = false;
   }
 

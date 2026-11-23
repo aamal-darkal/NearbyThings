@@ -28,10 +28,10 @@
           @csrf
 
           <div class="form-group @error('full_name') has-error @enderror">
-            <label class="form-label" for="reg-name">اسم المستخدم</label>
+            <label class="form-label" for="reg-name">الاسم الكامل</label>
             <div class="input-wrap">
               <svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"  xmlns="http://www.w3.org/2000/svg"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              <input type="text" id="reg-name" name="full_name" value="{{ old('full_name') }}" placeholder="مثال: rawda_raja" autocomplete="username">
+              <input type="text" id="reg-name" name="full_name" value="{{ old('full_name') }}" placeholder="مثال: محمد أحمد" autocomplete="name">
             </div>
             <p class="form-error">@error('full_name'){{ $message }}@enderror</p>
           </div>
