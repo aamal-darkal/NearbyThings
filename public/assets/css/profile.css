@@ -86,6 +86,21 @@
   background: var(--color-primary-dark);
 }
 
+/* أزرار التعديل وتسجيل الخروج */
+.profile-card__actions {
+  display: flex;
+  gap: 8px;
+  margin-inline-start: auto;
+}
+
+.profile-card__actions .btn {
+  margin-inline-start: 0;
+}
+
+.profile-card .btn--soft {
+  background: var(--color-muted-bg);
+}
+
 /* روابط أقسام الحساب */
 .account-nav {
   display: flex;
@@ -239,6 +254,13 @@
   .profile-card .btn {
     margin-inline-start: 0;
     width: 100%;
+  }
+
+  /* الزرين تحت بعض */
+  .profile-card__actions {
+    flex-direction: column;
+    width: 100%;
+    margin-inline-start: 0;
   }
 
   .reviews {
