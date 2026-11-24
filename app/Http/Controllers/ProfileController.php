@@ -26,13 +26,21 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // البيانات الشخصية
+        $user->fill($request->safe()->only(['full_name', 'email', 'phone', 'address']));
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        // كلمة المرور بتتغير بس اذا انكتبت كلمة جديدة (بتتشفر تلقائياً من الموديل)
+        if ($request->filled('password')) {
+            $user->password = $request->password;
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -24,7 +25,9 @@ test('profile information can be updated', function () {
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'full_name' => 'Test User',
+            'phone' => '0912345678',
+            'address' => 'حي المزة، دمشق',
             'email' => 'test@example.com',
         ]);
 
@@ -34,7 +37,8 @@ test('profile information can be updated', function () {
 
     $user->refresh();
 
-    $this->assertSame('Test User', $user->name);
+    $this->assertSame('Test User', $user->full_name);
+    $this->assertSame('0912345678', $user->phone);
     $this->assertSame('test@example.com', $user->email);
     $this->assertNull($user->email_verified_at);
 });
@@ -45,7 +49,9 @@ test('email verification status is unchanged when the email address is unchanged
     $response = $this
         ->actingAs($user)
         ->patch('/profile', [
-            'name' => 'Test User',
+            'full_name' => 'Test User',
+            'phone' => '0912345678',
+            'address' => 'حي المزة، دمشق',
             'email' => $user->email,
         ]);
 
@@ -54,6 +60,44 @@ test('email verification status is unchanged when the email address is unchanged
         ->assertRedirect('/profile/edit');
 
     $this->assertNotNull($user->refresh()->email_verified_at);
+});
+
+test('password can be changed from the profile form', function () {
+    $user = User::factory()->create();
+
+    $this
+        ->actingAs($user)
+        ->patch('/profile', [
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'phone' => '0912345678',
+            'address' => 'حي المزة، دمشق',
+            'current_password' => 'password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ])
+        ->assertSessionHasNoErrors();
+
+    $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
+});
+
+test('password is not changed when the current password is wrong', function () {
+    $user = User::factory()->create();
+
+    $this
+        ->actingAs($user)
+        ->patch('/profile', [
+            'full_name' => $user->full_name,
+            'email' => $user->email,
+            'phone' => '0912345678',
+            'address' => 'حي المزة، دمشق',
+            'current_password' => 'wrong-password',
+            'password' => 'new-password',
+            'password_confirmation' => 'new-password',
+        ])
+        ->assertSessionHasErrors('current_password');
+
+    $this->assertTrue(Hash::check('password', $user->refresh()->password));
 });
 
 test('user can delete their account', function () {
