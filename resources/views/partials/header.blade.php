@@ -15,9 +15,9 @@
 
       <div class="header-actions">
         @auth
-          <button class="btn btn--primary btn--sm js-soon" type="button" data-message="صفحة إضافة غرض ضمن المرحلة القادمة">
+          <a href="{{ route('items.create') }}" class="btn btn--primary btn--sm">
             <x-icon name="plus" /><span class="btn-label">أضف غرضاً</span>
-          </button>
+          </a>
           <a href="{{ route('profile.show') }}" class="icon-btn" aria-label="الإشعارات">
             <x-icon name="bell" />
             @if (auth()->user()->unreadNotificationsCount() > 0)

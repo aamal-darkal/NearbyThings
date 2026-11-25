@@ -58,6 +58,13 @@ confirmForms.forEach(function (form) {
   });
 });
 
+// قوائم بترسل النموذج مباشرة لما تتغير (مثل الترتيب والفلاتر)
+document.querySelectorAll('.js-auto-submit').forEach(function (field) {
+  field.addEventListener('change', function () {
+    field.form.submit();
+  });
+});
+
 // زر المفضلة (القلب)
 // لاحقاً: fetch('/favorites/{id}', { method: 'POST' })
 const favButtons = document.querySelectorAll('.js-fav');
