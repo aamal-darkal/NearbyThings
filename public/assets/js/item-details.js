@@ -74,3 +74,38 @@ if (modal && requestButton) {
     modal.classList.add('is-open');
   }
 }
+
+// ===== التأجير: حساب المدة والتكلفة التقديرية =====
+const rentDates = document.querySelector('.rent-dates');
+
+if (rentDates) {
+  const startInput = document.getElementById('request-start');
+  const endInput = document.getElementById('request-end');
+  const totalLabel = document.getElementById('rent-total');
+  const price = parseFloat(rentDates.dataset.price);
+  // عدد الأيام بكل وحدة تأجير
+  const unitDays = { day: 1, month: 30, year: 365 };
+  const unitNames = { day: 'يوم', month: 'شهر', year: 'سنة' };
+
+  function updateRentTotal() {
+    const start = new Date(startInput.value);
+    const end = new Date(endInput.value);
+    const days = Math.round((end - start) / 86400000) + 1;
+
+    if (!startInput.value || !endInput.value || days < 1) {
+      totalLabel.textContent = 'اختر تاريخ بداية وتاريخ إرجاع صحيحين';
+      return;
+    }
+
+    const units = Math.ceil(days / unitDays[rentDates.dataset.unit]);
+    const total = units * price;
+    totalLabel.textContent = 'المدة: ' + days + ' يوم • التكلفة التقديرية: ' + total.toLocaleString('en-US') + ' ل.س (' + units + ' ' + unitNames[rentDates.dataset.unit] + ')';
+  }
+
+  startInput.addEventListener('change', function () {
+    endInput.min = startInput.value;
+    updateRentTotal();
+  });
+  endInput.addEventListener('change', updateRentTotal);
+  updateRentTotal();
+}
