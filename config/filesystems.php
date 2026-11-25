@@ -47,6 +47,16 @@ return [
             'report' => false,
         ],
 
+        // صور الأغراض: مجلد حقيقي داخل public (بدون رابط storage:link)، وما بينرفع على git
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('uploads'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/uploads',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
