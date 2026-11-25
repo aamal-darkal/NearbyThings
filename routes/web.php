@@ -2,15 +2,21 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MyItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 // الصفحة الرئيسية
-Route::view('/', 'home')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// تفاصيل الغرض (حالياً نفس الصفحة لكل الأغراض)
-Route::view('/items/{id}', 'items.show')->whereNumber('id')->name('items.show');
+// البحث والفلترة
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+// تفاصيل الغرض
+Route::get('/items/{item}', [ItemController::class, 'show'])->whereNumber('item')->name('items.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
