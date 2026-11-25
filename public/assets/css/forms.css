@@ -1,6 +1,26 @@
 /* ==========
-   الحقول ورسائل الخطأ والنافذة المنبثقة
+   الحقول ورسائل الخطأ والنافذة المنبثقة والخريطة
    ========== */
+
+/* صندوق الخريطة (Leaflet) */
+.map-box {
+  position: relative;
+  z-index: 0;
+  height: 280px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+  overflow: hidden;
+}
+
+/* زر نصي داخل سطر العنوان */
+button.form-hint-link {
+  background: none;
+  font-family: inherit;
+}
+
+/* رسالة خطأ عامة مو مرتبطة بحقل (مثل خطأ الخريطة) */
+.form-group.has-error .map-box { border-color: var(--color-danger); }
 
 .form-group {
   margin-bottom: 20px;
