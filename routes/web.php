@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\DealController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MyItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +44,23 @@ Route::middleware('auth')->group(function () {
     // المفضلة
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/{item}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+
+    // الطلبات: إرسال، إلغاء، طلباتي، الطلبات الواردة، تفاصيل العملية
+    Route::post('/items/{item}/requests', [RequestController::class, 'store'])->name('requests.store');
+    Route::get('/requests', [RequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/incoming', [RequestController::class, 'incoming'])->name('requests.incoming');
+    Route::get('/requests/{itemRequest}', [RequestController::class, 'show'])->whereNumber('itemRequest')->name('requests.show');
+    Route::patch('/requests/{itemRequest}/cancel', [RequestController::class, 'cancel'])->name('requests.cancel');
+
+    // مراحل العملية: قبول/رفض، الموعد، الاستلام، الإرجاع
+    Route::patch('/requests/{itemRequest}/accept', [DealController::class, 'accept'])->name('requests.accept');
+    Route::patch('/requests/{itemRequest}/reject', [DealController::class, 'reject'])->name('requests.reject');
+    Route::patch('/requests/{itemRequest}/appointment/confirm', [DealController::class, 'confirmAppointment'])->name('requests.appointment.confirm');
+    Route::post('/requests/{itemRequest}/appointment', [DealController::class, 'proposeAppointment'])->name('requests.appointment.propose');
+    Route::patch('/requests/{itemRequest}/receive', [DealController::class, 'confirmReceipt'])->name('requests.receive');
+    Route::patch('/requests/{itemRequest}/return', [DealController::class, 'reportReturn'])->name('requests.return');
+    Route::patch('/requests/{itemRequest}/return/confirm', [DealController::class, 'confirmReturn'])->name('requests.return.confirm');
+    Route::patch('/requests/{itemRequest}/return/dispute', [DealController::class, 'disputeReturn'])->name('requests.return.dispute');
 });
 
 // ===== لوحة المشرف =====

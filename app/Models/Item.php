@@ -57,6 +57,11 @@ class Item extends Model
         return $this->hasMany(ItemImage::class);
     }
 
+    public function requests(): HasMany
+    {
+        return $this->hasMany(ItemRequest::class);
+    }
+
     public function favoritedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'wishlists');
