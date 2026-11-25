@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MyItemController;
 use App\Http\Controllers\ProfileController;
@@ -35,6 +36,36 @@ Route::middleware('auth')->group(function () {
     // المفضلة
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/{item}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+});
+
+// ===== لوحة المشرف =====
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [Admin\DashboardController::class, 'index'])->name('dashboard');
+
+    // الإعلانات والطلبات + حجب الأغراض
+    Route::get('/listings', [Admin\ListingController::class, 'index'])->name('listings.index');
+    Route::patch('/items/{item}/block', [Admin\ListingController::class, 'block'])->name('items.block');
+    Route::patch('/items/{item}/unblock', [Admin\ListingController::class, 'unblock'])->name('items.unblock');
+
+    // التصنيفات وحالات الغرض
+    Route::get('/categories', [Admin\CategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [Admin\CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/categories/{category}', [Admin\CategoryController::class, 'update'])->name('categories.update');
+    Route::patch('/categories/{category}/toggle', [Admin\CategoryController::class, 'toggle'])->name('categories.toggle');
+    Route::delete('/categories/{category}', [Admin\CategoryController::class, 'destroy'])->name('categories.destroy');
+    Route::post('/conditions', [Admin\CategoryController::class, 'storeCondition'])->name('conditions.store');
+    Route::put('/conditions/{condition}', [Admin\CategoryController::class, 'updateCondition'])->name('conditions.update');
+    Route::delete('/conditions/{condition}', [Admin\CategoryController::class, 'destroyCondition'])->name('conditions.destroy');
+
+    // اقتراحات التصنيفات
+    Route::get('/suggestions', [Admin\SuggestionController::class, 'index'])->name('suggestions.index');
+    Route::patch('/suggestions/{category}/approve', [Admin\SuggestionController::class, 'approve'])->name('suggestions.approve');
+    Route::patch('/suggestions/{category}/move', [Admin\SuggestionController::class, 'move'])->name('suggestions.move');
+
+    // المستخدمون
+    Route::get('/users', [Admin\UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/ban', [Admin\UserController::class, 'ban'])->name('users.ban');
+    Route::patch('/users/{user}/unban', [Admin\UserController::class, 'unban'])->name('users.unban');
 });
 
 require __DIR__.'/auth.php';
