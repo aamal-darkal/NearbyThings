@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\ItemRequest;
+use App\Models\Review;
 use App\Support\Geo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,9 +27,20 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
+        // التقييمات اللي وصلت للمستخدم مع العملية والمقيّم
+        $reviews = Review::where('reviewed_user_id', $user->id)
+            ->with(['reviewer', 'request.item'])
+            ->latest()
+            ->get();
+
+        // عدد العمليات المكتملة (كمالك أو كباحث)
+        $completedDeals = ItemRequest::involving($user)->where('status', 'finished')->count();
+
         return view('profile.show', [
             'user' => $user,
             'items' => $items,
+            'reviews' => $reviews,
+            'completedDeals' => $completedDeals,
         ]);
     }
 

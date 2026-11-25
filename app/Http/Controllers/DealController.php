@@ -51,7 +51,7 @@ class DealController extends Controller
         });
 
         ActivityLog::record('update', $itemRequest, ['status' => 'waiting'], ['status' => 'approved']);
-        Notification::send($itemRequest->requester_id, 'تمت الموافقة على طلبك', 'وافق المالك على طلبك على "'.$itemRequest->item->title.'". راجع موعد الاستلام وأكده.');
+        Notification::send($itemRequest->requester_id, 'تمت الموافقة على طلبك', 'وافق المالك على طلبك على "'.$itemRequest->item->title.'". راجع موعد الاستلام وأكده.', route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم قبول الطلب وإرسال الموعد');
     }
@@ -76,7 +76,7 @@ class DealController extends Controller
         $itemRequest->update(['status' => 'rejected', 'owner_note' => $data['owner_note']]);
 
         ActivityLog::record('update', $itemRequest, ['status' => 'waiting'], ['status' => 'rejected']);
-        Notification::send($itemRequest->requester_id, 'تم رفض طلبك', 'رفض المالك طلبك على "'.$itemRequest->item->title.'". ملاحظة المالك: '.$data['owner_note']);
+        Notification::send($itemRequest->requester_id, 'تم رفض طلبك', 'رفض المالك طلبك على "'.$itemRequest->item->title.'". ملاحظة المالك: '.$data['owner_note'], route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم رفض الطلب');
     }
@@ -96,7 +96,7 @@ class DealController extends Controller
         $appointment->update(['status' => 'confirmed']);
 
         $other = $itemRequest->otherParty($user);
-        Notification::send($other->id, 'تم تأكيد موعد الاستلام', $user->full_name.' أكد موعد الاستلام لـ "'.$itemRequest->item->title.'".');
+        Notification::send($other->id, 'تم تأكيد موعد الاستلام', $user->full_name.' أكد موعد الاستلام لـ "'.$itemRequest->item->title.'".', route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم تأكيد الموعد');
     }
@@ -133,7 +133,7 @@ class DealController extends Controller
         });
 
         $other = $itemRequest->otherParty($user);
-        Notification::send($other->id, 'موعد استلام جديد', $user->full_name.' اقترح موعداً جديداً لـ "'.$itemRequest->item->title.'". راجعه وأكده.');
+        Notification::send($other->id, 'موعد استلام جديد', $user->full_name.' اقترح موعداً جديداً لـ "'.$itemRequest->item->title.'". راجعه وأكده.', route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم إرسال الموعد الجديد');
     }
@@ -175,7 +175,7 @@ class DealController extends Controller
         $itemRequest->appointments()->where('status', 'new')->update(['status' => 'confirmed']);
 
         ActivityLog::record('update', $itemRequest, ['status' => 'approved'], ['status' => $itemRequest->status]);
-        Notification::send($item->owner_id, 'تم استلام الغرض', $request->user()->full_name.' أكد استلام "'.$item->title.'".');
+        Notification::send($item->owner_id, 'تم استلام الغرض', $request->user()->full_name.' أكد استلام "'.$item->title.'".', route('requests.show', $itemRequest));
 
         $message = $item->transaction_type === 'rent'
             ? 'تم تأكيد الاستلام. لا تنسَ إشعار المالك عند إرجاع الغرض'
@@ -199,7 +199,7 @@ class DealController extends Controller
 
         $rental->update(['return_reported_at' => now(), 'actual_return_date' => today()]);
 
-        Notification::send($itemRequest->ownerId(), 'تم إرجاع الغرض', $request->user()->full_name.' أبلغ عن إرجاع "'.$itemRequest->item->title.'". أكد الإرجاع أو اعترض خلال 48 ساعة، وإلا يُعتبر مُرجعاً تلقائياً.');
+        Notification::send($itemRequest->ownerId(), 'تم إرجاع الغرض', $request->user()->full_name.' أبلغ عن إرجاع "'.$itemRequest->item->title.'". أكد الإرجاع أو اعترض خلال 48 ساعة، وإلا يُعتبر مُرجعاً تلقائياً.', route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم إشعار المالك بالإرجاع');
     }
@@ -223,7 +223,7 @@ class DealController extends Controller
         });
 
         ActivityLog::record('update', $rental, ['return_status' => 'pending'], ['return_status' => 'confirmed']);
-        Notification::send($itemRequest->requester_id, 'تم تأكيد الإرجاع', 'أكد المالك إرجاع "'.$itemRequest->item->title.'". يمكنك الآن تقييم المالك.');
+        Notification::send($itemRequest->requester_id, 'تم تأكيد الإرجاع', 'أكد المالك إرجاع "'.$itemRequest->item->title.'". يمكنك الآن تقييم المالك.', route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم تأكيد الإرجاع، يمكنك الآن تقييم المستأجر');
     }
@@ -262,7 +262,7 @@ class DealController extends Controller
         });
 
         ActivityLog::record('update', $rental, ['return_status' => 'pending'], ['return_status' => 'disputed']);
-        Notification::send($itemRequest->requester_id, 'اعتراض على الإرجاع', 'اعترض المالك على إرجاع "'.$itemRequest->item->title.'"، وسيراجع المشرف الاعتراض.');
+        Notification::send($itemRequest->requester_id, 'اعتراض على الإرجاع', 'اعترض المالك على إرجاع "'.$itemRequest->item->title.'"، وسيراجع المشرف الاعتراض.', route('requests.show', $itemRequest));
 
         foreach (User::where('is_admin', true)->pluck('id') as $adminId) {
             Notification::send($adminId, 'بلاغ جديد', 'اعتراض على إرجاع "'.$itemRequest->item->title.'" بانتظار المراجعة.');

@@ -82,8 +82,8 @@ class Rental extends Model
                 $item->update(['state' => 'active']);
             }
 
-            Notification::send($item->owner_id, 'تم تأكيد الإرجاع تلقائياً', 'تم اعتبار "'.$item->title.'" مُرجعاً تلقائياً لعدم الرد خلال 48 ساعة.');
-            Notification::send($rental->request->requester_id, 'تم تأكيد الإرجاع', 'تم تأكيد إرجاع "'.$item->title.'" تلقائياً. يمكنك الآن تقييم المالك.');
+            Notification::send($item->owner_id, 'تم تأكيد الإرجاع تلقائياً', 'تم اعتبار "'.$item->title.'" مُرجعاً تلقائياً لعدم الرد خلال 48 ساعة.', route('requests.show', $rental->request));
+            Notification::send($rental->request->requester_id, 'تم تأكيد الإرجاع', 'تم تأكيد إرجاع "'.$item->title.'" تلقائياً. يمكنك الآن تقييم المالك.', route('requests.show', $rental->request));
         }
 
         return $due->count();

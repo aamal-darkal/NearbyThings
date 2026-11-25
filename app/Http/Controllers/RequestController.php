@@ -125,7 +125,7 @@ class RequestController extends Controller
             }
 
             ActivityLog::record('create', $itemRequest, null, ['item_id' => $item->id, 'status' => 'waiting']);
-            Notification::send($item->owner_id, 'طلب جديد', $user->full_name.' أرسل طلباً على "'.$item->title.'".');
+            Notification::send($item->owner_id, 'طلب جديد', $user->full_name.' أرسل طلباً على "'.$item->title.'".', route('requests.show', $itemRequest));
         });
 
         return redirect()->route('requests.index')->with('toast', 'تم إرسال طلبك، سيصلك إشعار عند رد المالك');
@@ -145,7 +145,7 @@ class RequestController extends Controller
         $itemRequest->update(['status' => 'canceled']);
 
         ActivityLog::record('update', $itemRequest, ['status' => 'waiting'], ['status' => 'canceled']);
-        Notification::send($itemRequest->ownerId(), 'تم إلغاء طلب', $request->user()->full_name.' ألغى طلبه على "'.$itemRequest->item->title.'".');
+        Notification::send($itemRequest->ownerId(), 'تم إلغاء طلب', $request->user()->full_name.' ألغى طلبه على "'.$itemRequest->item->title.'".', route('requests.show', $itemRequest));
 
         return back()->with('toast', 'تم إلغاء الطلب');
     }
