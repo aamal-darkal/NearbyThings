@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Support\Geo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,25 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    /**
+     * صفحة الملف الشخصي: بيانات المستخدم وإعلاناته النشطة
+     */
+    public function show(Request $request): View
+    {
+        $user = $request->user();
+
+        $items = $user->items()
+            ->where('state', 'active')
+            ->with(['images', 'owner'])
+            ->latest()
+            ->get();
+
+        return view('profile.show', [
+            'user' => $user,
+            'items' => $items,
+        ]);
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -29,7 +49,13 @@ class ProfileController extends Controller
         $user = $request->user();
 
         // البيانات الشخصية
-        $user->fill($request->safe()->only(['full_name', 'email', 'phone', 'address']));
+        $user->fill($request->safe()->only(['full_name', 'email', 'phone', 'address', 'city']));
+
+        // الموقع منخزنه مقرّب (حوالي 100 متر) حفاظاً على الخصوصية
+        if ($request->filled('latitude')) {
+            $user->latitude = Geo::approximate((float) $request->latitude);
+            $user->longitude = Geo::approximate((float) $request->longitude);
+        }
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;

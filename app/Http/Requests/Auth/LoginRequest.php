@@ -63,6 +63,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // الحساب المحظور ما بيقدر يدخل
+        if (Auth::user()->is_blocked) {
+            Auth::guard('web')->logout();
+
+            throw ValidationException::withMessages([
+                'email' => 'تم حظر حسابك من قبل إدارة الموقع',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 
