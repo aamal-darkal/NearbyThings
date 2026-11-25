@@ -812,3 +812,29 @@
 
   .stat-card__icon { display: none; }
 }
+
+/* شريحة فيها مربع اختيار (تتلون لما تنختار) */
+.chip--check {
+  position: relative;
+  cursor: pointer;
+}
+
+.chip--check input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.chip--check:has(input:checked) {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: #fff;
+}
+
+.chip--check:has(input:focus-visible) { outline: 2px solid var(--color-primary); }
+
+/* الصورة ما بتكبّر خانة الصورة مهما كانت أبعادها */
+.item-card__media img {
+  position: absolute;
+  inset: 0;
+}

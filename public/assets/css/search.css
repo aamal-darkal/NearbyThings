@@ -1,0 +1,337 @@
+/* ==========
+   صفحة نتائج البحث: شريط البحث، الفلاتر، النتائج، الخريطة
+   ========== */
+
+/* شريط البحث العلوي */
+.search-top {
+  padding: 24px 0 20px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.search-bar {
+  display: flex;
+  gap: 12px;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-muted-bg);
+}
+
+.search-bar__field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 52px;
+  padding-inline: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.search-bar__field--keyword { flex: 1.4; }
+
+.search-bar__field--location { flex: 1; }
+
+.search-bar__field .icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+  font-size: 18px;
+}
+
+.search-bar__field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.search-bar__stack {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.search-bar__stack .muted { font-size: 11px; }
+
+.search-bar__stack strong {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.search-bar .js-locate {
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.search-bar .btn { flex-shrink: 0; }
+
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* تخطيط الصفحة */
+.search-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-top: 32px;
+  padding-bottom: 24px;
+}
+
+/* الفلاتر */
+.filters {
+  position: sticky;
+  top: calc(var(--header-height) + 16px);
+  padding: 20px;
+}
+
+.filters__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.filters__head h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.filters__head .icon { color: var(--color-primary); }
+
+.filter-group {
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+}
+
+.filter-group legend,
+.filter-group__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.filter-group legend .muted { font-size: 11px; font-weight: 500; }
+
+.filter-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-muted-bg);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--color-primary-dark);
+}
+
+.filter-check__count {
+  margin-inline-start: auto;
+  min-width: 26px;
+  padding-inline: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary-soft);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-primary-dark);
+}
+
+.filter-check--plain {
+  padding: 4px 0;
+  margin-bottom: 4px;
+  background: none;
+  font-size: 13px;
+}
+
+.radius-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.choice-pill { cursor: pointer; }
+
+.choice-pill input {
+  position: absolute;
+  opacity: 0;
+}
+
+.choice-pill span {
+  display: block;
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-muted-bg);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-text-soft);
+}
+
+.choice-pill input:checked + span {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+.choice-pill input:focus-visible + span { outline: 2px solid var(--color-primary); }
+
+.price-range {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.price-range label .muted {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+
+.price-range .input { height: 44px; }
+
+/* رأس النتائج */
+.results__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+
+.results__head h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.results__tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.results__tools .select { width: auto; }
+
+.view-toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--color-muted-bg);
+}
+
+.view-toggle button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding-inline: 10px;
+  border-radius: 6px;
+  background: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+
+.view-toggle button.is-active {
+  background: var(--color-surface);
+  color: var(--color-primary-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* شبكة النتائج: 3 أعمدة */
+.search-grid { grid-template-columns: repeat(3, 1fr); }
+
+.search-grid[hidden] { display: none; }
+
+/* الخريطة */
+.results-map {
+  position: relative;
+  z-index: 0;
+  height: 560px;
+  overflow: hidden;
+}
+
+.results-map[hidden] { display: none; }
+
+/* شريط الأمان */
+.safety-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+  padding: 18px 22px;
+  border-radius: var(--radius-lg);
+  background: #e9f0ee;
+}
+
+.safety-strip > .icon {
+  flex-shrink: 0;
+  font-size: 24px;
+  color: var(--color-primary-dark);
+}
+
+.safety-strip strong { font-size: 17px; }
+
+.safety-strip p {
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+/* الشاشات الصغيرة */
+@media (max-width: 1100px) {
+  .search-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .search-layout { grid-template-columns: 1fr; }
+
+  .filters { position: static; }
+
+  .search-bar { flex-direction: column; }
+}
+
+@media (max-width: 520px) {
+  .search-grid { grid-template-columns: 1fr; }
+
+  .results__tools { flex-wrap: wrap; width: 100%; }
+
+  .results__tools .select { flex: 1; }
+
+  .results-map { height: 420px; }
+}
+
+/* البطاقة بتاخد كامل ارتفاع خانتها بالشبكة */
+.js-map-item { display: flex; }
+
+.js-map-item > .item-card { flex: 1; }
