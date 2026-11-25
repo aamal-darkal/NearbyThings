@@ -223,6 +223,8 @@
 
 .chart-labels {
   display: flex;
+  /* المخطط بيبلش من اليسار (قبل 30 يوم) لليمين (اليوم) */
+  flex-direction: row-reverse;
   justify-content: space-between;
   margin-top: 8px;
   font-size: 12px;
