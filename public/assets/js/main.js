@@ -65,12 +65,55 @@ document.querySelectorAll('.js-auto-submit').forEach(function (field) {
   });
 });
 
-// زر المفضلة (القلب)
-// لاحقاً: fetch('/favorites/{id}', { method: 'POST' })
+// زر المفضلة (القلب): بيرسل الطلب للسيرفر وبيلون القلب حسب الرد
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 const favButtons = document.querySelectorAll('.js-fav');
 
 favButtons.forEach(function (button) {
   button.addEventListener('click', function () {
-    button.classList.toggle('is-active');
+    // بطاقات تجريبية بدون رابط: بس منلون القلب
+    if (!button.dataset.url) {
+      button.classList.toggle('is-active');
+      return;
+    }
+
+    fetch(button.dataset.url, {
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken,
+        Accept: 'application/json',
+      },
+    })
+      .then(function (response) {
+        // الزائر لازم يسجل دخول أولاً
+        if (response.status === 401) {
+          window.location.href = '/login';
+          return null;
+        }
+        return response.json().then(function (data) {
+          return { ok: response.ok, data: data };
+        });
+      })
+      .then(function (result) {
+        if (!result) {
+          return;
+        }
+
+        showToast(result.data.message, !result.ok);
+
+        if (result.ok) {
+          button.classList.toggle('is-active', result.data.favorited);
+          button.setAttribute('aria-pressed', result.data.favorited);
+
+          // بصفحة المفضلة: منخفي البطاقة لما تنشال من المفضلة
+          const card = button.closest('.js-favorite-card');
+          if (card && !result.data.favorited) {
+            card.hidden = true;
+          }
+        }
+      })
+      .catch(function () {
+        showToast('حدث خطأ في الاتصال، حاول مجدداً', true);
+      });
   });
 });
