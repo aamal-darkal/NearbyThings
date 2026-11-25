@@ -112,6 +112,7 @@
           <h2 class="panel__title">أحدث البلاغات <span class="status status--danger">{{ $stats['open_reports'] }} بلاغات غير محسومة</span></h2>
           <p class="panel__subtitle">بلاغات المستخدمين بانتظار المراجعة والتدقيق الإداري</p>
         </div>
+        <a href="{{ route('admin.reports.index') }}" class="link">عرض سجل البلاغات <x-icon name="chevron-left" /></a>
       </div>
 
       <div class="table-wrap">

@@ -36,7 +36,7 @@
       <nav class="admin-nav" aria-label="قائمة المشرف">
         <a href="{{ route('admin.dashboard') }}" @class(['is-active' => request()->routeIs('admin.dashboard')])><x-icon name="grid" />لوحة التحكم</a>
         <a href="{{ route('admin.listings.index') }}" @class(['is-active' => request()->routeIs('admin.listings.*')])><x-icon name="repeat" />الإعلانات والطلبات</a>
-        <a href="#" class="js-soon" data-message="صفحة البلاغات ضمن المرحلة القادمة"><x-icon name="flag" />البلاغات</a>
+        <a href="{{ route('admin.reports.index') }}" @class(['is-active' => request()->routeIs('admin.reports.*')])><x-icon name="flag" />البلاغات</a>
         <a href="{{ route('admin.categories.index') }}" @class(['is-active' => request()->routeIs('admin.categories.*')])><x-icon name="shapes" />التصنيفات وحالات الغرض</a>
         <a href="{{ route('admin.suggestions.index') }}" @class(['is-active' => request()->routeIs('admin.suggestions.*')])><x-icon name="lightbulb" />اقتراحات التصنيفات</a>
         <a href="{{ route('admin.users.index') }}" @class(['is-active' => request()->routeIs('admin.users.*')])><x-icon name="users" />المستخدمون</a>
@@ -64,7 +64,7 @@
         <button class="icon-btn menu-toggle" type="button" aria-label="فتح القائمة" aria-expanded="false"><x-icon name="menu" /></button>
         <span class="admin-topbar__title">منصة إدارة غرضك قريب</span>
         <div class="header-actions">
-          <a href="{{ route('profile.show') }}" class="icon-btn" aria-label="الإشعارات">
+          <a href="{{ route('notifications.index') }}" class="icon-btn" aria-label="الإشعارات">
             <x-icon name="bell" />
             @if (auth()->user()->unreadNotificationsCount() > 0)<span class="dot"></span>@endif
           </a>

@@ -649,10 +649,23 @@
   background: var(--color-muted-bg);
 }
 
-.move-summary strong {
+.move-summary > strong {
   display: block;
   font-size: 20px;
   color: var(--color-primary-dark);
 }
 
 .move-summary p { margin-top: 6px; font-size: 13px; }
+
+/* أزرار إجراءات البلاغ */
+.report-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn--danger-text { color: var(--color-danger); }
+
+.move-summary .user-cell { margin-top: 8px; }
+
+.move-summary .user-cell .muted { display: block; font-size: 12px; }
