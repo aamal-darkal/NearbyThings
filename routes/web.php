@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MyItemController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/items/{item}', [MyItemController::class, 'update'])->name('items.update');
     Route::patch('/items/{item}/toggle', [MyItemController::class, 'toggle'])->name('items.toggle');
     Route::delete('/items/{item}', [MyItemController::class, 'destroy'])->name('items.destroy');
+
+    // المفضلة
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{item}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
 
 require __DIR__.'/auth.php';
