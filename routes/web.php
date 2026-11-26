@@ -3,11 +3,15 @@
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\DealController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MyItemController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +65,19 @@ Route::middleware('auth')->group(function () {
     Route::patch('/requests/{itemRequest}/return', [DealController::class, 'reportReturn'])->name('requests.return');
     Route::patch('/requests/{itemRequest}/return/confirm', [DealController::class, 'confirmReturn'])->name('requests.return.confirm');
     Route::patch('/requests/{itemRequest}/return/dispute', [DealController::class, 'disputeReturn'])->name('requests.return.dispute');
+
+    // التقييم المتبادل بعد انتهاء العملية
+    Route::post('/requests/{itemRequest}/review', [ReviewController::class, 'store'])->name('reviews.store');
+
+    // الإبلاغ عن مخالفة
+    Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
+    Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+
+    // الإشعارات وسجل التعاملات
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::patch('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+    Route::get('/notifications/{notification}', [NotificationController::class, 'open'])->whereNumber('notification')->name('notifications.open');
+    Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 });
 
 // ===== لوحة المشرف =====
@@ -81,6 +98,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/conditions', [Admin\CategoryController::class, 'storeCondition'])->name('conditions.store');
     Route::put('/conditions/{condition}', [Admin\CategoryController::class, 'updateCondition'])->name('conditions.update');
     Route::delete('/conditions/{condition}', [Admin\CategoryController::class, 'destroyCondition'])->name('conditions.destroy');
+
+    // البلاغات
+    Route::get('/reports', [Admin\ReportController::class, 'index'])->name('reports.index');
+    Route::patch('/reports/{report}/resolve', [Admin\ReportController::class, 'resolve'])->name('reports.resolve');
 
     // اقتراحات التصنيفات
     Route::get('/suggestions', [Admin\SuggestionController::class, 'index'])->name('suggestions.index');
