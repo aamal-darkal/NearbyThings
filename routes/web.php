@@ -15,7 +15,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     // صفحة الملف الشخصي
-    Route::view('/profile', 'profile.show')->name('profile.show');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     // فورم تعديل الحساب (من Breeze)
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

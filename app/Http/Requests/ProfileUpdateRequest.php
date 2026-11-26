@@ -29,6 +29,10 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'phone' => ['required', 'regex:/^09[0-9]{8}$/'],
             'address' => ['required', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:100'],
+            // الموقع التقريبي من الخريطة (اختياري)
+            'latitude' => ['nullable', 'numeric', 'between:-90,90', 'required_with:longitude'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180', 'required_with:latitude'],
             // كلمة المرور اختيارية: اذا انكتبت كلمة جديدة لازم الحالية تكون صحيحة
             'current_password' => ['nullable', 'required_with:password', 'current_password'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
@@ -49,6 +53,9 @@ class ProfileUpdateRequest extends FormRequest
             'email.*' => 'أدخل بريداً إلكترونياً صحيحاً',
             'phone.*' => 'رقم الهاتف يجب أن يبدأ بـ 09 ويتكون من 10 أرقام',
             'address.*' => 'أدخل منطقتك',
+            'city.*' => 'اسم المدينة طويل جداً',
+            'latitude.*' => 'حدد موقعك على الخريطة بشكل صحيح',
+            'longitude.*' => 'حدد موقعك على الخريطة بشكل صحيح',
             'current_password.required_with' => 'أدخل كلمة المرور الحالية',
             'current_password.current_password' => 'كلمة المرور الحالية غير صحيحة',
             'password.confirmed' => 'كلمتا المرور غير متطابقتين',
