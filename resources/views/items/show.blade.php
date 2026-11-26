@@ -15,6 +15,14 @@
   $specs = collect($item->variants ?? [])->except('exchange_for');
   $isAvailable = $item->state === 'active' && ! $item->owner->is_blocked;
   $images = $item->images;
+
+  // طلب مفتوح للمستخدم على هالغرض (اذا موجود منوديه لصفحة الطلب بدل ما يرسل طلب جديد)
+  $openRequest = auth()->check()
+      ? \App\Models\ItemRequest::where('item_id', $item->id)
+          ->where('requester_id', auth()->id())
+          ->whereIn('status', \App\Models\ItemRequest::OPEN_STATUSES)
+          ->first()
+      : null;
 @endphp
 
 @section('content')
@@ -161,8 +169,12 @@
               <a href="{{ route('items.mine') }}" class="btn btn--primary"><x-icon name="package" />إدارة إعلاناتي</a>
             @elseif (! $isAvailable)
               <button class="btn btn--primary" type="button" disabled>غير متاح حالياً</button>
+            @elseif (! auth()->check())
+              <a href="{{ route('login') }}" class="btn btn--primary"><x-icon name="send" />سجّل الدخول لإرسال طلب</a>
+            @elseif ($openRequest)
+              <a href="{{ route('requests.show', $openRequest) }}" class="btn btn--primary"><x-icon name="eye" />لديك طلب على هذا الغرض</a>
             @else
-              <button class="btn btn--primary js-soon" type="button" data-message="إرسال الطلبات ضمن المرحلة القادمة"><x-icon name="send" />أرسل طلباً</button>
+              <button class="btn btn--primary" id="request-btn" type="button"><x-icon name="send" />أرسل طلباً</button>
             @endif
 
             @unless ($isOwner)
@@ -199,6 +211,10 @@
 @endsection
 
 @push('modals')
+  @if (auth()->check() && ! $isOwner && $isAvailable && ! $openRequest)
+    @include('requests.partials.request-modal')
+  @endif
+
   <!-- عارض الصور بملء الشاشة -->
   @if ($images->isNotEmpty())
     <div class="lightbox" id="lightbox" role="dialog" aria-label="عرض الصورة">

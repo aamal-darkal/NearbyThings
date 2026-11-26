@@ -540,3 +540,31 @@
 
 /* المواصفات: عدد الأعمدة حسب عدد البطاقات */
 .specs { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+
+/* نافذة إرسال الطلب: حقول التأجير والتبادل */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-group--small { max-width: 140px; }
+
+.required { color: var(--color-danger); }
+
+.rent-total {
+  margin: -8px 0 8px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+#request-modal .modal__dialog {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+#request-modal .modal__body .form-group { margin-bottom: 14px; }
+
+@media (max-width: 520px) {
+  .form-grid-2 { grid-template-columns: 1fr; }
+}

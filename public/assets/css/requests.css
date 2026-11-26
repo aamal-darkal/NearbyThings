@@ -1,0 +1,652 @@
+/* ==========
+   صفحات الطلبات: طلباتي، الطلبات الواردة، تفاصيل العملية
+   ========== */
+
+.container--narrow { max-width: 1000px; }
+
+.requests-tabs { margin-bottom: 20px; }
+
+/* ===== بطاقة طلب (طلباتي) ===== */
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.request-card {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr) auto;
+  gap: 18px;
+  padding: 16px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.request-card__media {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.request-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.request-card__media .badge {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+}
+
+.request-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.request-card__meta {
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.request-card__price {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+}
+
+.request-card__title {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.request-card__title a:hover { color: var(--color-primary); }
+
+.request-card__side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 130px;
+}
+
+.request-line {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.request-line strong { color: var(--color-text); }
+
+.request-line .icon { color: var(--color-text-muted); }
+
+.rating-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.rating-inline .icon {
+  color: var(--color-star);
+  fill: currentColor;
+}
+
+.request-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.request-note--success {
+  background: var(--color-primary-softer);
+  color: var(--color-primary-dark);
+}
+
+.request-note--danger {
+  background: #fdeeee;
+  color: var(--color-danger);
+}
+
+/* ===== الطلبات الواردة ===== */
+.incoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.incoming-group { overflow: hidden; }
+
+.incoming-group__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  background: var(--color-muted-bg);
+}
+
+.incoming-group__head h2 {
+  display: inline;
+  margin-inline-start: 6px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.incoming-group__head p { margin-top: 4px; }
+
+.incoming-request {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.incoming-request__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.incoming-request__head .avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+}
+
+.incoming-request__head strong { display: block; }
+
+.incoming-request__head .status { margin-inline-start: auto; }
+
+.incoming-request__line {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: #ede9e4;
+}
+
+.incoming-request__box {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  font-size: 14px;
+}
+
+.incoming-request__box .muted {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.is-struck {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.incoming-request__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn--danger-text { color: var(--color-danger); }
+
+/* ===== تفاصيل العملية ===== */
+
+/* المراحل */
+.deal-steps {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 20px;
+  padding: 24px;
+  list-style: none;
+}
+
+.deal-step {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.deal-step::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  inset-inline: 0;
+  height: 3px;
+  background: var(--color-border);
+}
+
+.deal-step.is-done::before,
+.deal-step.is-current::before { background: var(--color-primary-dark); }
+
+.deal-step__dot {
+  position: relative;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-muted-bg);
+  font-weight: 800;
+}
+
+.deal-step.is-done { color: var(--color-primary-dark); }
+
+.deal-step.is-done .deal-step__dot {
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+.deal-step.is-current { color: var(--color-primary-dark); }
+
+.deal-step.is-current .deal-step__dot {
+  background: var(--color-surface);
+  border: 3px solid var(--color-primary-dark);
+  box-shadow: 0 0 0 4px var(--color-primary-soft);
+}
+
+.deal-step small { font-size: 11px; }
+
+/* الإجراء المطلوب */
+.deal-action {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 22px 24px;
+  background: #e9f0ee;
+  box-shadow: none;
+}
+
+.deal-action__icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-dark);
+  color: #fff;
+  font-size: 22px;
+}
+
+.deal-action__icon--danger { background: var(--color-danger); }
+
+.deal-action__text {
+  flex: 1;
+  min-width: 220px;
+}
+
+.deal-action__text h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.deal-action__text p {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-text-soft);
+}
+
+.deal-action__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* شبكة البطاقات */
+.deal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.deal-grid__main,
+.deal-grid__side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.deal-card { padding: 22px; }
+
+.deal-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.deal-card__head h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.deal-card__head .icon { color: var(--color-primary); }
+
+.deal-card .alert { margin-top: 12px; }
+
+.alert--plain { background: var(--color-muted-bg); }
+
+.deal-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.deal-item h3 {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.deal-item img {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+.deal-item__price {
+  display: block;
+  margin-top: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+}
+
+.deal-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+  font-size: 13px;
+}
+
+.deal-facts div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.deal-facts dt { color: var(--color-text-soft); }
+
+.deal-facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.deal-facts__total {
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-primary-dark);
+}
+
+.deal-facts__total dt { color: var(--color-primary-dark); font-weight: 800; }
+
+.deal-note {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-muted-bg);
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.deal-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.deal-box strong { font-size: 17px; }
+
+.deal-box .muted {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* الطرف الآخر */
+.party {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.party .avatar {
+  width: 52px;
+  height: 52px;
+  font-size: 22px;
+}
+
+.party strong {
+  display: block;
+  font-size: 17px;
+}
+
+.contact-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.contact-box__phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary-dark);
+  direction: ltr;
+  justify-content: flex-end;
+}
+
+.contact-box__mail {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+.deal-tip {
+  display: flex;
+  gap: 12px;
+  padding: 18px;
+}
+
+.deal-tip > .icon {
+  flex-shrink: 0;
+  font-size: 22px;
+  color: var(--color-primary);
+}
+
+.deal-tip p {
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+/* سجل النشاط */
+.deal-log { margin-top: 20px; }
+
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0 28px 0 0;
+  list-style: none;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  inset-inline-start: 7px;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.timeline li {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  inset-inline-start: -27px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-border);
+  border: 3px solid var(--color-surface);
+}
+
+.timeline li.is-done::before { background: var(--color-primary-dark); }
+
+.timeline li.is-pending { color: var(--color-text-muted); }
+
+.timeline li.is-muted { color: var(--color-text-muted); }
+
+.timeline strong { display: block; font-size: 15px; }
+
+.timeline small { font-size: 12px; color: var(--color-text-muted); }
+
+/* شريط الأمان */
+.safety-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  padding: 20px 24px;
+  border-radius: var(--radius-lg);
+  background: #e9f0ee;
+}
+
+.safety-banner__icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-primary-dark);
+  color: #fff;
+  font-size: 20px;
+}
+
+.safety-banner h2 {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.safety-banner p {
+  font-size: 13px;
+  color: var(--color-text-soft);
+}
+
+/* نماذج النوافذ */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.required { color: var(--color-danger); }
+
+.modal .form-label .icon { color: var(--color-primary); }
+
+/* الشاشات الصغيرة */
+@media (max-width: 900px) {
+  .deal-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 800px) {
+  .request-card { grid-template-columns: 96px minmax(0, 1fr); }
+
+  .request-card__side {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .deal-steps { overflow-x: auto; gap: 8px; }
+
+  .deal-step { min-width: 90px; }
+}
+
+@media (max-width: 520px) {
+  .request-card { grid-template-columns: 1fr; }
+
+  .request-card__media { aspect-ratio: 16 / 9; }
+
+  .form-grid-2 { grid-template-columns: 1fr; }
+
+  .incoming-group__head { flex-direction: column; }
+
+  .deal-item { flex-direction: column-reverse; }
+
+  .deal-item img { width: 100%; height: 180px; }
+}
