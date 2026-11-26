@@ -4,6 +4,7 @@
 @section('title', 'أغراضي وإعلاناتي')
 
 @push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/forms.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/my-items.css') }}">
 @endpush
 
@@ -164,11 +165,14 @@
                     <span class="btn btn--soft btn--xs is-locked" title="لا يمكن التعديل حالياً"><x-icon name="lock" />مقفل</span>
                   @endif
 
-                  <form method="POST" action="{{ route('items.destroy', $item) }}" class="js-confirm" data-confirm="هل أنت متأكد من حذف هذا الإعلان؟">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn--text-danger btn--xs" aria-label="حذف الإعلان"><x-icon name="trash" /></button>
-                  </form>
+                  {{-- الحذف مخفي اذا عليه طلبات جارية (والسيرفر بيمنعه كمان اذا عليه أي طلب) --}}
+                  @unless ($isDeal)
+                    <form method="POST" action="{{ route('items.destroy', $item) }}" class="js-confirm" data-confirm="هل أنت متأكد من حذف هذا الإعلان؟">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="btn btn--text-danger btn--xs" aria-label="حذف الإعلان"><x-icon name="trash" /></button>
+                    </form>
+                  @endunless
                 </div>
               </div>
             </div>
