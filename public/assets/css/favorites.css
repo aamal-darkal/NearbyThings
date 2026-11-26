@@ -1,0 +1,33 @@
+/* ==========
+   صفحة المفضلة
+   ========== */
+
+.favorites-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.favorites-grid .item-card__distance { margin-top: 4px; }
+
+.favorites-grid .item-card__price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+/* البطاقة المخفية بعد إزالتها من المفضلة */
+.js-favorite-card[hidden] { display: none; }
+
+/* البطاقة غير المتاحة */
+.item-card.is-unavailable .item-card__media { background: #b3b3b3; }
+
+.item-card.is-unavailable .item-card__title,
+.item-card.is-unavailable .item-card__price { color: var(--color-text-muted); }
+
+@media (max-width: 900px) {
+  .favorites-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .favorites-grid { grid-template-columns: 1fr; }
+}

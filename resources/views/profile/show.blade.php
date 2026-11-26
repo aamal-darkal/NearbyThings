@@ -41,7 +41,7 @@
       <nav class="account-nav profile-nav" aria-label="أقسام الحساب">
         <a href="{{ route('profile.show') }}" class="pill is-active"><x-icon name="user" />ملفي</a>
         <a href="{{ route('items.mine') }}" class="pill"><x-icon name="package" />إعلاناتي</a>
-        <a href="#" class="pill js-soon" data-message="صفحة المفضلة ضمن المرحلة القادمة"><x-icon name="heart" />المفضلة</a>
+        <a href="{{ route('favorites.index') }}" class="pill"><x-icon name="heart" />المفضلة</a>
       </nav>
 
       <!-- التبويبات -->

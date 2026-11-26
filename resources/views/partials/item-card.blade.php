@@ -11,7 +11,10 @@
     @endif
     <span class="badge badge--{{ $item->transaction_type }}">{{ $item->typeLabel() }}</span>
   </div>
-  <button class="fav-btn js-fav" type="button" data-id="{{ $item->id }}" aria-label="إضافة إلى المفضلة"><x-icon name="heart" /></button>
+  @php $isFavorite = in_array($item->id, $favoriteIds ?? []); @endphp
+  <button @class(['fav-btn', 'js-fav', 'is-active' => $isFavorite]) type="button"
+          data-url="{{ route('favorites.toggle', $item) }}"
+          aria-pressed="{{ $isFavorite ? 'true' : 'false' }}" aria-label="إضافة إلى المفضلة"><x-icon name="heart" /></button>
   <div class="item-card__body">
     @if ($item->distance !== null)
       <span class="item-card__distance"><x-icon name="navigation" />{{ $item->distanceLabel() }}</span>

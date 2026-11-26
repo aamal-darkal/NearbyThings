@@ -54,3 +54,17 @@ test('unavailable items cannot be added to favorites', function () {
 test('guests are sent to the login page', function () {
     $this->post("/favorites/{$this->item->id}")->assertRedirect(route('login'));
 });
+
+test('the favorites page lists saved items and marks unavailable ones', function () {
+    $this->user->favoriteItems()->attach($this->item->id, ['created_at' => now()]);
+
+    $this->actingAs($this->user)->get('/favorites')
+        ->assertOk()
+        ->assertSee('كرسي مكتب')
+        ->assertDontSee('لم يعد متاحاً');
+
+    $this->item->update(['state' => 'sold']);
+
+    $this->actingAs($this->user)->get('/favorites')->assertSee('لم يعد متاحاً');
+    $this->actingAs($this->user)->get('/favorites?type=rent')->assertDontSee('كرسي مكتب');
+});
