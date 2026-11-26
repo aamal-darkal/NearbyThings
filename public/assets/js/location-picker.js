@@ -9,6 +9,9 @@ const DEFAULT_CENTER = [33.5138, 36.2765];
 
 const pickerBox = document.querySelector('.js-location-picker');
 
+// الخريطة (صفحات تانية بتحتاجها لتحدث حجمها لما تصير ظاهرة)
+let pickerMap = null;
+
 // اذا المكتبة ما انحملت (بدون انترنت) ما منعمل شي
 if (pickerBox && typeof L !== 'undefined') {
   const latInput = document.getElementById(pickerBox.dataset.latInput);
@@ -18,6 +21,7 @@ if (pickerBox && typeof L !== 'undefined') {
   const start = hasValue ? [parseFloat(latInput.value), parseFloat(lngInput.value)] : DEFAULT_CENTER;
 
   const map = L.map(pickerBox).setView(start, hasValue ? 14 : 12);
+  pickerMap = map;
 
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,

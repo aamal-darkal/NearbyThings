@@ -357,7 +357,7 @@
               <p>شاركه مع جيرانك الآن واكسب دخلاً إضافياً أو بادله بما يفيدك</p>
             </div>
           </div>
-          <button class="btn btn--primary js-soon" type="button" data-message="صفحة إضافة غرض ضمن المرحلة القادمة">ابدأ بإضافة غرضك</button>
+          <a href="{{ route('items.create') }}" class="btn btn--primary">ابدأ بإضافة غرضك</a>
         </div>
       </section>
     </div>

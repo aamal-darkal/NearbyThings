@@ -164,3 +164,14 @@ test('editing keeps old images and removes the selected ones', function () {
 
     expect($item->images()->pluck('id')->all())->toBe([$keep->id]);
 });
+
+test('the listing pages render', function () {
+    $item = makeItem($this->owner, ['location_hint' => 'المزة']);
+    $item->images()->create(['image_path' => 'items/a.jpg']);
+    addRequest(makeItem($this->owner, ['title' => 'عليه طلب']), 'waiting');
+
+    $this->actingAs($this->owner)->get('/my-items')->assertOk()->assertSee('غرض تجريبي')->assertSee('قيد التفاوض والاتفاق');
+    $this->actingAs($this->owner)->get('/my-items?tab=deal')->assertOk()->assertSee('عليه طلب')->assertDontSee('غرض تجريبي');
+    $this->actingAs($this->owner)->get('/items/create')->assertOk()->assertSee('إضافة غرض جديد');
+    $this->actingAs($this->owner)->get("/items/{$item->id}/edit")->assertOk()->assertSee('غرض تجريبي');
+});
