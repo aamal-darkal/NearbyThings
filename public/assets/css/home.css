@@ -537,3 +537,16 @@
 }
 
 .section--first { margin-top: 16px; }
+
+/* نوع العملية صار جزء من نموذج البحث (سطر كامل تحت الحقول) */
+.search-box { flex-wrap: wrap; }
+
+.search-box .deal-filter {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* أيقونة التصنيف (رمز تعبيري من قاعدة البيانات) */
+.category-card__icon--emoji { font-size: 26px; }
+
+.category-card { text-align: center; }

@@ -1,14 +1,16 @@
 // ==========
-// صفحة تفاصيل الغرض: معرض الصور ونافذة إرسال الطلب
+// صفحة تفاصيل الغرض: معرض الصور، الخريطة التقريبية، ونافذة إرسال الطلب
 // ==========
 
-// معرض الصور: لما تكبس على صورة صغيرة بتصير هي الكبيرة
+// ===== معرض الصور: لما تكبس على صورة صغيرة بتصير هي الكبيرة =====
 const mainImage = document.getElementById('gallery-main');
+const galleryCounter = document.getElementById('gallery-counter');
 const thumbs = document.querySelectorAll('.thumb');
 
 thumbs.forEach(function (thumb) {
   thumb.addEventListener('click', function () {
     mainImage.src = thumb.dataset.src;
+    galleryCounter.textContent = thumb.dataset.index + ' من ' + thumbs.length + ' صور';
 
     thumbs.forEach(function (t) {
       t.classList.remove('is-active');
@@ -19,37 +21,56 @@ thumbs.forEach(function (thumb) {
 
 // عرض الصورة بملء الشاشة
 const lightbox = document.getElementById('lightbox');
-const lightboxImage = document.getElementById('lightbox-image');
+const expandButton = document.getElementById('gallery-expand');
 
-document.getElementById('gallery-expand').addEventListener('click', function () {
-  lightboxImage.src = mainImage.src;
-  lightbox.classList.add('is-open');
-});
+if (lightbox && expandButton) {
+  expandButton.addEventListener('click', function () {
+    document.getElementById('lightbox-image').src = mainImage.src;
+    lightbox.classList.add('is-open');
+  });
 
-lightbox.addEventListener('click', function () {
-  lightbox.classList.remove('is-open');
-});
+  lightbox.addEventListener('click', function () {
+    lightbox.classList.remove('is-open');
+  });
+}
 
-// نافذة إرسال الطلب
+// ===== الخريطة: دائرة حول الموقع التقريبي (بدون نقطة دقيقة) =====
+const itemMap = document.getElementById('item-map');
+
+if (itemMap && typeof L !== 'undefined') {
+  const point = [parseFloat(itemMap.dataset.lat), parseFloat(itemMap.dataset.lng)];
+  const map = L.map(itemMap, { scrollWheelZoom: false }).setView(point, 14);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 16,
+    attribution: '&copy; OpenStreetMap',
+  }).addTo(map);
+
+  L.circle(point, {
+    radius: 600,
+    color: '#1b7a6e',
+    fillColor: '#1b7a6e',
+    fillOpacity: 0.25,
+  }).addTo(map);
+}
+
+// ===== نافذة إرسال الطلب =====
 const modal = document.getElementById('request-modal');
 const requestButton = document.getElementById('request-btn');
-const requestForm = document.getElementById('request-form');
-const closeButtons = document.querySelectorAll('.js-close-modal');
 
-requestButton.addEventListener('click', function () {
-  modal.classList.add('is-open');
-});
-
-closeButtons.forEach(function (button) {
-  button.addEventListener('click', function () {
-    modal.classList.remove('is-open');
+if (modal && requestButton) {
+  requestButton.addEventListener('click', function () {
+    modal.classList.add('is-open');
   });
-});
 
-requestForm.addEventListener('submit', function (event) {
-  event.preventDefault();
-  // لاحقاً: fetch('/api/requests', { method: 'POST', ... })
-  modal.classList.remove('is-open');
-  requestButton.textContent = 'تم إرسال طلبك';
-  requestButton.disabled = true;
-});
+  modal.querySelectorAll('.js-close-modal').forEach(function (button) {
+    button.addEventListener('click', function () {
+      modal.classList.remove('is-open');
+    });
+  });
+
+  // اذا السيرفر رجع أخطاء بالنموذج منفتح النافذة من جديد
+  if (modal.dataset.open === 'true') {
+    modal.classList.add('is-open');
+  }
+}
