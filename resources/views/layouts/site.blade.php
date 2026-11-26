@@ -36,6 +36,9 @@
   {{-- النوافذ المنبثقة (بعد الفوتر) --}}
   @stack('modals')
 
+  {{-- رسالة قصيرة (Toast): رسالة الخادم بعد أي عملية بتظهر تلقائياً --}}
+  <div @class(['toast', 'toast--error' => session('toast_type') === 'error']) id="toast" role="status" aria-live="polite" data-message="{{ session('toast') }}" hidden></div>
+
   {{-- مكتبات خاصة بالصفحة، بعدها الكود المشترك، بعدها كود الصفحة --}}
   @stack('libraries')
   <script src="{{ asset('assets/js/main.js') }}"></script>

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css/forms.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/profile.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/profile-edit.css') }}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 @endpush
 
 @section('content')
@@ -75,6 +76,28 @@
             <p class="form-note"><svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"  xmlns="http://www.w3.org/2000/svg"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>يظهر موقعك بشكل تقريبي، ولا تظهر بيانات تواصلك إلا بعد قبول طلب.</p>
           </div>
 
+          <div class="form-group @error('city') has-error @enderror">
+            <label class="form-label" for="edit-city">المدينة</label>
+            <div class="input-wrap">
+              <x-icon name="home" />
+              <input type="text" id="edit-city" name="city" value="{{ old('city', $user->city) }}" placeholder="مثال: دمشق">
+            </div>
+            <p class="form-error">@error('city'){{ $message }}@enderror</p>
+          </div>
+
+          {{-- الموقع التقريبي على الخريطة: بيستخدم لحساب المسافة بالبحث --}}
+          <div class="form-group @error('latitude') has-error @enderror">
+            <div class="form-label-row">
+              <span class="form-label">موقعك التقريبي على الخريطة</span>
+              <button type="button" class="form-hint-link js-locate-me">استخدم موقعي الحالي</button>
+            </div>
+            <div class="map-box js-location-picker" data-lat-input="edit-lat" data-lng-input="edit-lng"></div>
+            <input type="hidden" id="edit-lat" name="latitude" value="{{ old('latitude', $user->latitude) }}">
+            <input type="hidden" id="edit-lng" name="longitude" value="{{ old('longitude', $user->longitude) }}">
+            <p class="form-error">@error('latitude'){{ $message }}@enderror</p>
+            <p class="form-note"><x-icon name="info" />اضغط على الخريطة لتحديد منطقتك. نحفظ الموقع مقرّباً ولا يظهر لأحد بدقة.</p>
+          </div>
+
         <section class="edit-section" aria-labelledby="password-title">
           <h2 id="password-title"><svg class="icon" aria-hidden="true" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"  xmlns="http://www.w3.org/2000/svg"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>تغيير كلمة المرور</h2>
           <p>اترك هذه الحقول فارغة إذا كنت لا ترغب بتغيير كلمة المرور الحالية</p>
@@ -119,7 +142,13 @@
   </main>
 @endsection
 
+@push('libraries')
+  <!-- مكتبة الخرائط Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+@endpush
+
 @push('scripts')
+  <script src="{{ asset('assets/js/location-picker.js') }}"></script>
   <script src="{{ asset('assets/js/validation.js') }}"></script>
   <script src="{{ asset('assets/js/profile-edit.js') }}"></script>
 @endpush
