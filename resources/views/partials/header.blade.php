@@ -11,6 +11,9 @@
         <a href="{{ route('home') }}#nearby">قريب منك</a>
         <a href="{{ route('home') }}#categories-section">التصنيفات</a>
         <a href="{{ route('home') }}#how-it-works">كيف يعمل الموقع</a>
+        @if (auth()->user()?->is_admin)
+          <a href="{{ route('admin.dashboard') }}">لوحة المشرف</a>
+        @endif
       </nav>
 
       <div class="header-actions">
