@@ -21,7 +21,7 @@
           <a href="{{ route('items.create') }}" class="btn btn--primary btn--sm">
             <x-icon name="plus" /><span class="btn-label">أضف غرضاً</span>
           </a>
-          <a href="{{ route('profile.show') }}" class="icon-btn" aria-label="الإشعارات">
+          <a href="{{ route('notifications.index') }}" class="icon-btn" aria-label="الإشعارات">
             <x-icon name="bell" />
             @if (auth()->user()->unreadNotificationsCount() > 0)
               <span class="dot"></span>

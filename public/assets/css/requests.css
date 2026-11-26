@@ -650,3 +650,61 @@
 
   .deal-item img { width: 100%; height: 180px; }
 }
+
+/* ===== التقييم المتبادل ===== */
+.deal-review { margin-top: 20px; }
+
+.review-form p { margin-bottom: 10px; color: var(--color-text-soft); }
+
+/* النجوم: الترتيب بالـ HTML من 5 لـ 1، وrow-reverse بيعرضها من 1 لـ 5 */
+.star-input {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 4px;
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+}
+
+.star-input input {
+  position: absolute;
+  opacity: 0;
+}
+
+.star-input label {
+  font-size: 32px;
+  color: #ddd6cd;
+  cursor: pointer;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.star-input label .icon { fill: currentColor; }
+
+/* النجمة المختارة واللي قبلها بتتلون */
+.star-input input:checked ~ label,
+.star-input label:hover,
+.star-input label:hover ~ label { color: var(--color-star); }
+
+.star-input label:hover { transform: scale(1.1); }
+
+.star-input input:focus-visible + label { outline: 2px solid var(--color-primary); border-radius: 4px; }
+
+.form-error--show { display: block; margin: -8px 0 12px; }
+
+.review-given {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-muted-bg);
+}
+
+.review-given p { width: 100%; color: var(--color-text-soft); }
+
+.review-given--theirs { margin-top: 10px; background: var(--color-primary-softer); }
+
+.deal-report { margin-top: 16px; text-align: center; }
+
+.link--danger { color: var(--color-danger); }

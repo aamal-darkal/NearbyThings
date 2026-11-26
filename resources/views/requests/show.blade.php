@@ -8,6 +8,10 @@
   $isRent = $item->transaction_type === 'rent';
   $rental = $deal->rental;
   $status = $deal->status;
+  // التقييمات: تقييمي للطرف الآخر، وتقييمه إلي
+  $myReview = \App\Models\Review::where('request_id', $deal->id)->where('reviewer_id', $user->id)->first();
+  $theirReview = \App\Models\Review::where('request_id', $deal->id)->where('reviewed_user_id', $user->id)->first();
+
   $titles = ['sale' => 'تفاصيل عملية البيع', 'rent' => 'تفاصيل عملية التأجير', 'exchange' => 'تفاصيل عملية التبادل'];
 
   // ===== مراحل العملية =====
@@ -22,7 +26,7 @@
   if ($isRent) {
       $steps[] = ['label' => 'تم الإرجاع', 'done' => $returned];
   }
-  $steps[] = ['label' => 'التقييم', 'done' => false];
+  $steps[] = ['label' => 'التقييم', 'done' => $myReview !== null];
 
   // أول مرحلة ما خلصت هي المرحلة الحالية
   $currentStep = collect($steps)->search(fn ($step) => ! $step['done']);
@@ -314,6 +318,58 @@
           </section>
         </aside>
       </div>
+
+      {{-- ===== التقييم المتبادل (بعد انتهاء العملية) ===== --}}
+      @if ($status === 'finished' && $deal->isParty($user))
+        <section class="panel deal-card deal-review" id="review">
+          <div class="deal-card__head">
+            <h2><x-icon name="star" />التقييم المتبادل</h2>
+          </div>
+
+          @if ($myReview)
+            <div class="review-given">
+              <span class="muted">تقييمك لـ {{ $other->full_name }}:</span>
+              <span class="stars" aria-label="{{ $myReview->rating }} من 5">
+                @for ($i = 1; $i <= 5; $i++)<x-icon name="star" @class(['is-empty' => $i > $myReview->rating]) />@endfor
+              </span>
+              @if ($myReview->comment)<p>"{{ $myReview->comment }}"</p>@endif
+            </div>
+          @else
+            <form method="POST" action="{{ route('reviews.store', $deal) }}" class="review-form">
+              @csrf
+              <p>كيف كانت تجربتك مع <strong>{{ $other->full_name }}</strong>؟ تقييمك يساعد الجيران على التعامل بثقة.</p>
+              <fieldset class="star-input @error('rating') has-error @enderror">
+                <legend class="sr-only">التقييم من 1 إلى 5</legend>
+                {{-- النجوم بترتيب عكسي حتى يشتغل تلوين النجوم السابقة بـ CSS فقط --}}
+                @for ($i = 5; $i >= 1; $i--)
+                  <input type="radio" id="star-{{ $i }}" name="rating" value="{{ $i }}" @checked(old('rating') == $i)>
+                  <label for="star-{{ $i }}" aria-label="{{ $i }} نجوم"><x-icon name="star" /></label>
+                @endfor
+              </fieldset>
+              @error('rating')<p class="form-error form-error--show">{{ $message }}</p>@enderror
+              <div class="form-group">
+                <label class="form-label" for="review-comment">تعليق (اختياري)</label>
+                <textarea class="textarea" id="review-comment" name="comment" maxlength="500" placeholder="مثال: تعامل راقٍ والغرض مطابق للوصف">{{ old('comment') }}</textarea>
+              </div>
+              <button type="submit" class="btn btn--primary"><x-icon name="star" />إرسال التقييم</button>
+            </form>
+          @endif
+
+          @if ($theirReview)
+            <div class="review-given review-given--theirs">
+              <span class="muted">تقييم {{ $other->full_name }} لك:</span>
+              <span class="stars" aria-label="{{ $theirReview->rating }} من 5">
+                @for ($i = 1; $i <= 5; $i++)<x-icon name="star" @class(['is-empty' => $i > $theirReview->rating]) />@endfor
+              </span>
+              @if ($theirReview->comment)<p>"{{ $theirReview->comment }}"</p>@endif
+            </div>
+          @endif
+        </section>
+      @endif
+
+      @if ($deal->isParty($user) && ! in_array($status, ['waiting', 'canceled']))
+        <p class="deal-report"><a href="{{ route('reports.create', ['request' => $deal->id]) }}" class="link link--danger"><x-icon name="flag" />الإبلاغ عن مشكلة في هذه العملية</a></p>
+      @endif
 
       {{-- ===== سجل نشاط العملية ===== --}}
       <section class="panel deal-card deal-log">

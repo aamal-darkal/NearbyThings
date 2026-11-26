@@ -184,7 +184,9 @@
             @endunless
           </div>
           @unless ($isOwner)
-            <a href="#" class="report-link js-soon" data-message="الإبلاغ عن مخالفة ضمن المرحلة القادمة"><x-icon name="flag" />إبلاغ عن مخالفة</a>
+            @auth
+              <a href="{{ route('reports.create', ['item' => $item->id]) }}" class="report-link"><x-icon name="flag" />إبلاغ عن مخالفة</a>
+            @endauth
           @endunless
         </aside>
       </div>

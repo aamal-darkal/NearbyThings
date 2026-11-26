@@ -1,0 +1,100 @@
+/* ==========
+   صفحة الإشعارات
+   ========== */
+
+.notifications-page { max-width: 840px; }
+
+.unread-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.unread-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.page-head .link { background: none; }
+
+.notifications-tabs { margin-bottom: 16px; }
+
+.notifications-list { overflow: hidden; }
+
+.notifications-group {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 20px;
+  background: var(--color-muted-bg);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-soft);
+}
+
+.notification {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.notification.is-unread { background: #f5f9f8; }
+
+.notification__dot {
+  position: absolute;
+  top: 34px;
+  inset-inline-start: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.notification__icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: 20px;
+}
+
+.notification__icon--danger { background: #fdeaea; color: var(--color-danger); }
+.notification__icon--accent { background: #efe7da; color: #6b5a3e; }
+.notification__icon--muted { background: var(--color-muted-bg); color: var(--color-text-soft); }
+
+.notification__body { flex: 1; min-width: 0; }
+
+.notification__body h2 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.notification__body p {
+  margin-top: 2px;
+  font-size: 14px;
+  color: var(--color-text-soft);
+}
+
+.notification__body .link { margin-top: 6px; }
+
+.notification time {
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+@media (max-width: 520px) {
+  .notification { flex-wrap: wrap; padding: 16px; }
+
+  .notification time { width: 100%; padding-inline-start: 60px; }
+}
